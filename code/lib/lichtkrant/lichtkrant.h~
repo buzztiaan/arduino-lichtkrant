@@ -1,0 +1,40 @@
+#include <MemoryFree.h>
+
+#ifndef LICHTKRANT_H
+#define LICHTKRANT_H
+
+#include "Arduino.h"
+
+#define SHREGISTERS 7
+#define ROWS        7
+#define COLUMNS     50   // actually visible columns, 6 pins of the 'last' register (first byte in buffers) is not used.
+#define NONVISABLES 6
+
+#define DATAPIN  22
+#define LATCHPIN 23
+#define CLOCKPIN 24
+
+#define ROW0PIN  A0   
+#define ROW1PIN  A1
+#define ROW2PIN  A2
+#define ROW3PIN  A3
+#define ROW4PIN  A4
+#define ROW5PIN  A5
+#define ROW6PIN  A6
+
+#define MICROSPERROW 2750   // ~50 full frames per second. ( 1000000micros in a second / 50 frames per second / 7 rows = 2857micros per row)
+
+const byte rowToPin[ROWS] = 
+{ 
+  ROW0PIN, ROW1PIN, ROW2PIN, ROW3PIN, ROW4PIN, ROW5PIN, ROW6PIN
+};
+
+void initHardware(void);
+void serviceFramebuffer(void);
+void setBuffer(byte whichBuffer[][SHREGISTERS], byte data);
+void bufferCopy(byte from[][SHREGISTERS], byte to[][SHREGISTERS]);
+void setPixel(byte whichBuffer[][SHREGISTERS], byte value, byte x, byte y);
+byte readPixel(byte whichBuffer[][SHREGISTERS],byte x, byte y);
+
+
+#endif
